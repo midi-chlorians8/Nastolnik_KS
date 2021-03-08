@@ -12,9 +12,9 @@ CapacityButton &CapacityButton::IsPressed(Menu &menu)
 {
     //Serial.print("millis:");Serial.print(millis());
     //Serial.print(" TimePress:");Serial.print(TimePress);
-    //Serial.print(" touchRead:");Serial.println(touchRead(StartWorkTimePin));
+    Serial.print(" touchRead:");Serial.println(touchRead(StartWorkTimePin));
 
-    if (touchRead(StartWorkTimePin) < 20)
+    if (touchRead(StartWorkTimePin) < 30)
     { // 30 - середина между 70 и 10. Считаю за границу пересечения. Вобще это чуствительность
         //TouchBtn = true;
 
