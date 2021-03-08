@@ -19,6 +19,10 @@ struct T_time{
        int min = 0;
        int hour = 0;
        int AverageMin = 0; // Всё время прошедшее в минутах
+
+       int8_t output_sec= 0;    // То что идёт на дисплей
+       int8_t output_min = 0;   // То что идёт на дисплей
+       int8_t output_hour = 0;  // То что идёт на дисплей
 };
 /*
 enum StateWorkOrChill{
@@ -45,7 +49,7 @@ private:
     bool letsBeginOtvhet = false;
     bool waitOneMin=false;
 
-   
+    bool freezUntilBreak = false;
 public:
     StateWorkOrChill WhatDoingNow;
     bool OneRazCopSEWorkTime = false; 
@@ -60,28 +64,31 @@ public:
                 letsBeginOtvhet = false;
             }
 
-
-
             if(letsBeginOtvhet == true){
                waitOneMin = waitOneMinGlobal; 
                     if (millis() - timing > 1000){ // Вместо 10000 подставьте нужное вам значение паузы 
-                        TimerTime.sec+=1; //Serial.println ("10 seconds");
-                        timing = millis(); 
+                        
+                            TimerTime.sec+=1; 
+                            timing = millis(); 
 
-                        impuls =true;
-                        // Перевод в минуты и часы
-                        if (TimerTime.sec>59){
-                            TimerTime.sec = 0;
-                            TimerTime.min +=1;
-                            TimerTime.AverageMin +=1; // Пользуемся этим в таймере save eyes
-                            if (TimerTime.min>59){ //Cпециально вложил чтоб меньше проверок было за цикл. Быстрее работало
-                                TimerTime.min = 0;
-                                TimerTime.hour +=1;
+                            impuls =true;
+                            // Перевод в минуты и часы
+                            if (TimerTime.sec>59){
+                                TimerTime.sec = 0;
+                                TimerTime.min +=1;
+                                TimerTime.AverageMin +=1; // Пользуемся этим в таймере save eyes
+                                if (TimerTime.min>59){ //Cпециально вложил чтоб меньше проверок было за цикл. Быстрее работало
+                                    TimerTime.min = 0;
+                                    TimerTime.hour +=1;
+                                }
                             }
-                        }
-                        // Перевод в минуты и часы
-                        //Serial.print(TimerTime.hour);Serial.print(":");Serial.print(TimerTime.min); Serial.print(":");Serial.print(TimerTime.sec); Serial.println();
-                                              
+                            // Перевод в минуты и часы
+                            //Serial.print(TimerTime.hour);Serial.print(":");Serial.print(TimerTime.min); Serial.print(":");Serial.print(TimerTime.sec); Serial.println();
+                        if(freezUntilBreak == false){ //Если сейчас не перерыв то считать секунды
+                            TimerTime.output_sec = TimerTime.sec;
+                            TimerTime.output_min = TimerTime.min;
+                            TimerTime.output_hour = TimerTime.hour;
+                        }  
                     }
                     // Один раз скопировать заданное кол-во рабочих меню из переменной в меню при нажатии кнопки старт таймер
                     if(OneRazCopSEWorkTime == false){
@@ -193,6 +200,7 @@ public:
                     s.MySoundKommand = PererivHour;
                     WhatDoingNow = Chill;
                     OneRazPlusMySEWorkTime = false; // Перезаряд
+                    freezUntilBreak = true; // Остановить отсчёт времени
                 OneRazSendBeepKommand = true;   // Послать один раз команду попищать
                 
             }
@@ -207,6 +215,13 @@ public:
                     s.MySoundKommand = StopPererivHour;
                     WhatDoingNow = Work;
                     OneRazSendBeepKommand=false;
+                    freezUntilBreak = false; // Продолжить отсчёт времени
+
+                    TimerTime.sec = TimerTime.output_sec;
+                    TimerTime.min = TimerTime.output_min;
+                    TimerTime.hour = TimerTime.output_hour;
+
+
                 OneRazPlusMySEWorkTime = true;
             }
             // Один раз увеличить свою переменную рабочего времени += величина раб времени из меню

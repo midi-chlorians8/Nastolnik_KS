@@ -215,7 +215,9 @@ void Nastolnik::UpdateMenu()
     //sound.ReceiveKommand(Sound:: Nop);
     timer.CountTime(capButton,sound); //Подкидышъ считает время
     timer.NotifyPereriv(sound);
-    //timer.Print(); //Tog
+
+    timer.Print(); //Tog
+    
     //buttons.Print(menu,true);
     sound.ReceiveKommand(); //Подкидышъ
     sound.BeepLogic();
