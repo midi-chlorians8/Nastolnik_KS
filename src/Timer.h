@@ -49,7 +49,8 @@ private:
     bool letsBeginOtvhet = false;
     bool waitOneMin=false;
 
-    bool freezUntilBreak = false;
+    bool freezUntilBreak = false; // Не считать время во время перерыва
+    bool showContinue = false; // Показать надпись continue после выхода с перерыва. И не продолжать считать время если небыло нажатия.
 public:
     StateWorkOrChill WhatDoingNow;
     bool OneRazCopSEWorkTime = false; 
@@ -67,7 +68,7 @@ public:
             if(letsBeginOtvhet == true){
                waitOneMin = waitOneMinGlobal; 
                     if (millis() - timing > 1000){ // Вместо 10000 подставьте нужное вам значение паузы 
-                        
+                        if(showContinue == false){
                             TimerTime.sec+=1; 
                             timing = millis(); 
 
@@ -84,11 +85,12 @@ public:
                             }
                             // Перевод в минуты и часы
                             //Serial.print(TimerTime.hour);Serial.print(":");Serial.print(TimerTime.min); Serial.print(":");Serial.print(TimerTime.sec); Serial.println();
-                        if(freezUntilBreak == false){ //Если сейчас не перерыв то считать секунды
-                            TimerTime.output_sec = TimerTime.sec;
-                            TimerTime.output_min = TimerTime.min;
-                            TimerTime.output_hour = TimerTime.hour;
-                        }  
+                            if(freezUntilBreak == false){ //Если сейчас не перерыв то считать секунды
+                                TimerTime.output_sec = TimerTime.sec;
+                                TimerTime.output_min = TimerTime.min;
+                                TimerTime.output_hour = TimerTime.hour;
+                            }  
+                        }
                     }
                     // Один раз скопировать заданное кол-во рабочих меню из переменной в меню при нажатии кнопки старт таймер
                     if(OneRazCopSEWorkTime == false){
@@ -221,12 +223,29 @@ public:
                     TimerTime.min = TimerTime.output_min;
                     TimerTime.hour = TimerTime.output_hour;
 
+                    showContinue = true;
 
                 OneRazPlusMySEWorkTime = true;
             }
             // Один раз увеличить свою переменную рабочего времени += величина раб времени из меню
         }
 
+    }
+    bool GetIsShowContinue(){
+        if(showContinue == true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    void SetShowContinue(bool en){
+        if(en == true){
+            showContinue = true;
+        }
+        else{
+            showContinue = false;
+        }
     }
     /*
     void DoWorkStateAndReset(){
@@ -262,20 +281,21 @@ public:
                 Serial.print(" TimerTime.AverageMin: ");Serial.print(TimerTime.AverageMin);Serial.print(" ");
                 Serial.print(TimerTime.hour);Serial.print(":");
                 Serial.print(TimerTime.min); Serial.print(":");
-                Serial.print(TimerTime.sec);  Serial.print(" ");
+                Serial.print(TimerTime.sec); Serial.print(" ");
 
                 Serial.print(" OneRazPlusMySEWorkTime: ");Serial.print(OneRazPlusMySEWorkTime); 
-
                 
                 Serial.print(" timer.GetWhatDoingNow()");
                 Serial.print(GetWhatDoingNow() );
+
+                Serial.println();
                // xSemaphoreGive( xSerialSemaphore );
            // }
             
             /*
             Serial.print(" OneRazPlusMySEWorkTime: ");Serial.print(OneRazPlusMySEWorkTime);
             */
-            //impuls = false;
+            impuls = false;
            
         }
     }

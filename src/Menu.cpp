@@ -1098,14 +1098,24 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
 
                 //timer.Print();
 
-                u8g2.setFont(u8g2_font_profont29_tn);
 
-                u8g2.setCursor(0 + 5, 60);
-                u8g2.print(timer.GetTimerTime().output_hour);
-                u8g2.print(":");
-                u8g2.print(timer.GetTimerTime().output_min);
-                u8g2.print(":");
-                u8g2.print(timer.GetTimerTime().output_sec);
+                if(timer.GetIsShowContinue() == false){
+                    u8g2.setFont(u8g2_font_profont29_tn);
+
+                    u8g2.setCursor(0 + 5, 60);
+
+                    u8g2.print(timer.GetTimerTime().output_hour);
+                    u8g2.print(":");
+                    u8g2.print(timer.GetTimerTime().output_min);
+                    u8g2.print(":");
+                    u8g2.print(timer.GetTimerTime().output_sec);
+                }else{
+                     //u8g2.clearBuffer(); // clear the internal memory
+                     //u8g2.setFont(u8g2_font_profont29_tn);
+                     u8g2.setCursor(0 + 5, 60);
+
+                    u8g2.print("CONTINUE"); // Шрифт можно как в теккене
+                }
 
                 //u8g2.drawStr(20, 35-3,"Only Co2");  //"Only Co2" u8g2.drawStr(35+10, 40-3, "Off");
                 //u8g2.sendBuffer();          // transfer internal memory to the display

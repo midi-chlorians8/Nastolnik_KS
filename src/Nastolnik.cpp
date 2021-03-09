@@ -94,7 +94,7 @@ void Nastolnik::UpdateButtons()
         type_and_button.second.Update();
     }
 
-    capButton.IsPressed(menu);  //.Print(menu,true); // Чтение и обработка кнопок
+    capButton.IsPressed(menu,timer);  //.Print(menu,true); // Чтение и обработка кнопок
     
 }
 

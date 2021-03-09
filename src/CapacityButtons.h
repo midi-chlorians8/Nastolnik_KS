@@ -50,7 +50,7 @@ bool oneRazTimePressSet;
 public:
     CapacityButton();
 
-    CapacityButton &IsPressed(Menu &menu);
+    CapacityButton &IsPressed(Menu &menu,Timer &timer);
 
     SensorButtonState GetSensorButtonState(){
         return SensorState;

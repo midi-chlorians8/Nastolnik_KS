@@ -2,13 +2,14 @@
 #define printDebug
 extern bool waitOneMinGlobal;
 
+#include "Timer.h"
 
 CapacityButton::CapacityButton()
 {
 
 }
 
-CapacityButton &CapacityButton::IsPressed(Menu &menu)
+CapacityButton &CapacityButton::IsPressed(Menu &menu,Timer &timer)
 {
     //Serial.print("millis:");Serial.print(millis());
     //Serial.print(" TimePress:");Serial.print(TimePress);
@@ -87,7 +88,9 @@ CapacityButton &CapacityButton::IsPressed(Menu &menu)
             menu.SetMenuLayer(0);
             menu.SetHorizontalPosition(3);
             menu.SetVerticalPosition(1);
-             OneRazTouch = false; // Перезаряд захват времени при косании. Сдесь мы отпустили - и перезаряд
+            OneRazTouch = false; // Перезаряд захват времени при косании. Сдесь мы отпустили - и перезаряд
+
+            timer.SetShowContinue(false);
 
             {// DoublePressChek
             // DoublePressChek
@@ -128,7 +131,7 @@ CapacityButton &CapacityButton::IsPressed(Menu &menu)
                 // Анализируем вычитанием был ли двойной клик
             // DoublePressChek
             }
-       
+
         }
         IsBeLongTouch = false;  // Перезаряд один раз вывести долгок нажатие
         IsBeLongTouch2 = false; // SuperLongClick Перезаряд
