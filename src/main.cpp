@@ -96,8 +96,8 @@ void setup()
  
   nastolnikPtr = new Nastolnik();
 
-  xTaskCreate(buttonTask, "button", 1024, NULL, 1, &button);             // Cоздать задачу по обработке кнопок
-  xTaskCreate(MenuTask, "Menu", 4096, NULL, 1, NULL); // Cоздать задачу по обработке кнопок
+  xTaskCreate(buttonTask, "button", (1024*2), NULL, 1, &button);             // Cоздать задачу по обработке кнопок
+  xTaskCreate(MenuTask, "Menu", (4096*2), NULL, 1, NULL); // Cоздать задачу по обработке кнопок
   // Если не стартовал Eeprom
   if (!nastolnikPtr->IsRomInitSuccess())
   {

@@ -943,7 +943,7 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
 }
 void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std::vector<int> &airData, int airDataInd, AirData airData_TempHumPress) //,Timer &timer
 {
-    bool drawLines = false;
+    bool drawLines = true;
 
     if (menuLayer == 0)
     {
@@ -957,6 +957,14 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
             if (horizontalPosition == 1)
             {                       // Если только СO2
                 u8g2.clearBuffer(); // clear the internal memory
+
+
+                u8g2.setFont(u8g2_font_profont10_tf);
+                u8g2.setCursor(0, 8);
+                u8g2.print("ESP.getFreeHeap():");u8g2.print( ESP.getFreeHeap() );
+                
+
+
 
                 u8g2.setFont(u8g2_font_profont29_tf);
                 u8g2.setCursor(0, 40);
@@ -989,35 +997,40 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
            */
             if (horizontalPosition == 2)
             {
+                if (millis() - timingUpdateGraph > 1000){   
 
-                u8g2.clearBuffer(); // clear the internal memory
+                    u8g2.clearBuffer(); // clear the internal memory
 
-                u8g2.setFont(u8g2_font_7x14B_tr);
-                //u8g2.drawStr(30, 15 - 3, "Only Graph"); //u8g2.drawStr(35+10, 40-3, "Off");
-                u8g2.setCursor(5, 15 - 3);
-                u8g2.print(airData[lastInd]);
-                u8g2.print(" Ppm");
-
-                for (int i = 0; i < airDataSize - 1; i++)
-                {
-                    int actualInd = (airDataInd + i) % airDataSize;
-                    int nextInd = (airDataInd + i + 1) % airDataSize;
-
-                    if (airData[actualInd] != 0 && airData[nextInd] != 0)
+                    u8g2.setFont(u8g2_font_7x14B_tr);
+                    u8g2.setCursor(5, 15 - 3);
+                    u8g2.print(airData[lastInd]); u8g2.print(" Ppm");
+                    
+                    u8g2.setFont(u8g2_font_profont10_tf);
+                    u8g2.setCursor(5, 22);
+                    u8g2.print("GetStackHWMark:");u8g2.print( uxTaskGetStackHighWaterMark(NULL) );
+ 
+                    for (int i = 0; i < airDataSize - 1; i++)
                     {
-                        int actualDrawY = map(airData[actualInd], 0, 2000, 64, 32);
-                        int nextDrawY = map(airData[nextInd], 0, 2000, 64, 32);
+                        int actualInd = (airDataInd + i) % airDataSize;
+                        int nextInd = (airDataInd + i + 1) % airDataSize;
 
-                        int actualDrawX = 4 * i;
-                        int nextDrawX = 4 * i;
+                        if (airData[actualInd] != 0 && airData[nextInd] != 0)
+                        {
+                            int actualDrawY = map(airData[actualInd], 0, 2000, 64, 32);
+                            int nextDrawY = map(airData[nextInd], 0, 2000, 64, 32);
 
-                        if (drawLines)
-                            nextDrawX += 4;
+                            int actualDrawX = 4 * i;
+                            int nextDrawX = 4 * i;
 
-                        u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
+                            if (drawLines)
+                                nextDrawX += 4;
+                            u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
+                        }                         
                     }
+                timingUpdateGraph = millis();
                 }
 
+              
                 /*
                 int PixelPos = map(data.GetCo2(), 0, 2000, 64, 32); // Разрешение: 128 x 64 точек
 
@@ -1090,14 +1103,6 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
                 //Serial.print("timer.GetWhatDoingNow()");
                 //Serial.println(timer.GetWhatDoingNow() );
                 // */
-
-                //u8g2.drawStr(20, 35-3,"Only Co2");  //"Only Co2" u8g2.drawStr(35+10, 40-3, "Off");
-
-                //FirstInToOnlyGraph = false; // ! Костыль от бага в графике! Переделать график и убрать строку
-                //timer.GetTimerTime().sec;
-
-                //timer.Print();
-
 
                 if(timer.GetIsShowContinue() == false){
                     u8g2.setFont(u8g2_font_profont29_tn);

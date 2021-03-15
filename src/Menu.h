@@ -63,6 +63,8 @@ class Menu
 
     void DrawSave(); // Чтобы надпись save моргнула
 
+    unsigned long timingUpdateGraph = 0;
+    
     class Drop{
         //int startXpos; // Должно быть     
         // Drop start coords
@@ -77,6 +79,7 @@ class Menu
         bool nowWaitBool =false;
         //CoordsDrop CoordsDrop2;
         // Drop start coords
+        
         public:
             Drop(){
                 RandomShiftDrop();
