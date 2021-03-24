@@ -26,6 +26,15 @@ void writeBoolIntoEEPROM(int address, bool boolean){
     EEPROM.commit();
 }
 
+byte readByteFromEEPROM(int address)
+{
+    return EEPROM.read(address);
+}
+void writeByteIntoEEPROM(int address, byte data){
+    EEPROM.write(address , data );
+    EEPROM.commit();
+}
+
 
 bool EEPROMBegin(int memorySize)
 {

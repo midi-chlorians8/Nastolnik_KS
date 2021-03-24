@@ -997,7 +997,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
            */
             if (horizontalPosition == 2)
             {
-                if (millis() - timingUpdateGraph > 1000){   
+              
 
                     u8g2.clearBuffer(); // clear the internal memory
 
@@ -1011,8 +1011,12 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
  
                     for (int i = 0; i < airDataSize - 1; i++)
                     {
+                             // if (millis() - timingUpdateGraph > 1000){   
                         int actualInd = (airDataInd + i) % airDataSize;
                         int nextInd = (airDataInd + i + 1) % airDataSize;
+                        // timingUpdateGraph = millis();
+                        //}
+
 
                         if (airData[actualInd] != 0 && airData[nextInd] != 0)
                         {
@@ -1027,8 +1031,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
                             u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
                         }                         
                     }
-                timingUpdateGraph = millis();
-                }
+               
 
               
                 /*

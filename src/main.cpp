@@ -6,8 +6,6 @@
 //26.02.2021
 #include <Arduino.h>
 
-
-
 #include "Nastolnik.h"
 Nastolnik *nastolnikPtr = nullptr;
 
@@ -97,7 +95,7 @@ void setup()
   nastolnikPtr = new Nastolnik();
 
   xTaskCreate(buttonTask, "button", (1024*2), NULL, 1, &button);             // Cоздать задачу по обработке кнопок
-  xTaskCreate(MenuTask, "Menu", (4096*2), NULL, 1, NULL); // Cоздать задачу по обработке кнопок
+  xTaskCreate(MenuTask, "Menu", (4096*3), NULL, 1, NULL); // Cоздать задачу по обработке кнопок
   // Если не стартовал Eeprom
   if (!nastolnikPtr->IsRomInitSuccess())
   {

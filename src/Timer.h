@@ -2,6 +2,8 @@
 
 #include "CapacityButtons.h"
 #include "Sound.h"
+#include "EEPROMUtil.h"
+
 extern bool impuls;
 extern bool waitOneMinGlobal;
 
@@ -76,11 +78,11 @@ public:
                             // Перевод в минуты и часы
                             if (TimerTime.sec>59){
                                 TimerTime.sec = 0;
-                                TimerTime.min +=1;
+                                TimerTime.min +=1;      writeByteIntoEEPROM(19, TimerTime.min);
                                 TimerTime.AverageMin +=1; // Пользуемся этим в таймере save eyes
                                 if (TimerTime.min>59){ //Cпециально вложил чтоб меньше проверок было за цикл. Быстрее работало
                                     TimerTime.min = 0;
-                                    TimerTime.hour +=1;
+                                    TimerTime.hour +=1; writeByteIntoEEPROM(20, TimerTime.hour);
                                 }
                             }
                             // Перевод в минуты и часы
@@ -247,22 +249,11 @@ public:
             showContinue = false;
         }
     }
-    /*
-    void DoWorkStateAndReset(){
-        SbrosTimer();
-        WhatDoingNow = Work;
-        OneRazSendBeepKommand=false;
-        OneRazCopSEWorkTime=false;
-        if(TimerTime.AverageMin>MySEWorkTime){
-            MySEWorkTime= TimerTime.AverageMin+SEWorkTime;
-        }
-        Serial.print("I set MySEWorkTime: ");Serial.print(MySEWorkTime); 
-    }
-    */
+ 
     void SbrosTimer(){
                 TimerTime.sec=0;
-                TimerTime.min=0;
-                TimerTime.hour=0;
+                TimerTime.min=0;  writeByteIntoEEPROM(19, TimerTime.min);
+                TimerTime.hour=0; writeByteIntoEEPROM(20, TimerTime.hour);
                 WhatDoingNow = No;
                 OneRazCopSEWorkTime = false; // Перезаряд // Один раз скопировать заданное кол-во рабочих меню из переменной в меню при нажатии кнопки старт таймер
                 PriStateImetSostWork = false;
@@ -299,4 +290,11 @@ public:
            
         }
     }
+
+
+    void SetReadedEEPROMTime(byte min,byte hour){
+        TimerTime.min = min;
+        TimerTime.hour = hour;
+    }
+
 };

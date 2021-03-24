@@ -70,6 +70,10 @@ Nastolnik::Nastolnik() : u8g2(U8G2_R0, 18, 19, 27, 25, 23), menu(u8g2), airDataV
             sound.SetState(Sound::OFF);
         }
 
+        timer.SetReadedEEPROMTime(readByteFromEEPROM(19),readByteFromEEPROM(20));    
+
+
+
         buttons.emplace(ButtonType::Left, LeftButtonPin);
         buttons.emplace(ButtonType::Right, RightButtonPin);
         buttons.emplace(ButtonType::Up, UpButtonPin);
