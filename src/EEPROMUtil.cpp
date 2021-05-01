@@ -41,13 +41,3 @@ bool EEPROMBegin(int memorySize)
     return EEPROM.begin(memorySize);
 }
 
-/*
-int EEPROMReadByte(int address){
-    return EEPROM.read(address);
-}
-
-void writeByteIntoEEPROM(int address, unsigned char data){
-    EEPROM.write(address , data );
-    EEPROM.commit();
-}
-*/

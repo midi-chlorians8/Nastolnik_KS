@@ -71,7 +71,7 @@ public:
                waitOneMin = waitOneMinGlobal; 
                     if (millis() - timing > 1000){ // Вместо 10000 подставьте нужное вам значение паузы 
                         if(showContinue == false){
-                            TimerTime.sec+=1; 
+                            TimerTime.sec+=1;  writeByteIntoEEPROM(21, TimerTime.sec);
                             timing = millis(); 
 
                             impuls =true;
@@ -292,9 +292,10 @@ public:
     }
 
 
-    void SetReadedEEPROMTime(byte min,byte hour){
+    void SetReadedEEPROMTime(byte min,byte hour, byte sec){
         TimerTime.min = min;
         TimerTime.hour = hour;
+        TimerTime.sec = sec;
     }
 
 };

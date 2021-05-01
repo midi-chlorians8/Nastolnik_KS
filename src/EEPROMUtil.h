@@ -13,7 +13,7 @@ void writeByteIntoEEPROM(int address, byte data);
 
 bool EEPROMBegin(int memorySize);
 /*
-int EEPROMReadByte(int address);
-
-void writeByteIntoEEPROM(int address, unsigned char  data)
+EEPROM MAP
+Number   Type_Data      What is
+21       byte           Timer.sec
 */

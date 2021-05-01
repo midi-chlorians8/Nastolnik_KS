@@ -70,7 +70,7 @@ Nastolnik::Nastolnik() : u8g2(U8G2_R0, 18, 19, 27, 25, 23), menu(u8g2), airDataV
             sound.SetState(Sound::OFF);
         }
 
-        timer.SetReadedEEPROMTime(readByteFromEEPROM(19),readByteFromEEPROM(20));    
+        timer.SetReadedEEPROMTime(readByteFromEEPROM(19),readByteFromEEPROM(20), readByteFromEEPROM(21));    
 
 
 
@@ -79,16 +79,7 @@ Nastolnik::Nastolnik() : u8g2(U8G2_R0, 18, 19, 27, 25, 23), menu(u8g2), airDataV
         buttons.emplace(ButtonType::Up, UpButtonPin);
         buttons.emplace(ButtonType::Down, DownButtonPin);
     }
-/*
-    if (mySensor.begin() == false)
-    {
 
-        while (1)
-        {
-            Serial.print("CCS811 error. Please check wiring. Freezing...");
-        }
-    }
-*/
 }
 
 void Nastolnik::UpdateButtons()

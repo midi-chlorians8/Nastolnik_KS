@@ -958,13 +958,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
             {                       // Если только СO2
                 u8g2.clearBuffer(); // clear the internal memory
 
-
-                u8g2.setFont(u8g2_font_profont10_tf);
-                u8g2.setCursor(0, 8);
-                u8g2.print("ESP.getFreeHeap():");u8g2.print( ESP.getFreeHeap() );
-                
-
-
+                //u8g2.setFont(u8g2_font_profont10_tf);u8g2.setCursor(0, 8);u8g2.print("ESP.getFreeHeap():");u8g2.print( ESP.getFreeHeap() );
 
                 u8g2.setFont(u8g2_font_profont29_tf);
                 u8g2.setCursor(0, 40);
