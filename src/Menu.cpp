@@ -1010,10 +1010,13 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
                     }
                     u8g2.print(" Ppm");
 
-                    u8g2.setFont(u8g2_font_profont10_tf);
-                    u8g2.setCursor(5, 22);
+                    //u8g2.setFont(u8g2_font_profont10_tf);
+                    //u8g2.setCursor(5, 22);
                     //u8g2.print("GetStackHWMark:");u8g2.print( uxTaskGetStackHighWaterMark(NULL) );
- 
+                if (millis() - timing > 1000){
+                    
+                    timing = millis(); 
+                }
                
 
                     for (int i = 0; i < airDataSize - 1; i++)
