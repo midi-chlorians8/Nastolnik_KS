@@ -952,7 +952,8 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         if (verticalPosition == 1)
         {
             int airDataSize = airData.size();
-            int lastInd = (airDataInd + airDataSize - 1) % airDataSize;
+            int lastInd=0;
+            lastInd = (airDataInd + airDataSize - 1) % airDataSize;
 
             if (horizontalPosition == 1)
             {                       // Если только СO2
@@ -991,42 +992,58 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
            */
             if (horizontalPosition == 2)
             {
-              
+
+                static unsigned long timing;
+                if (millis() - timing > 1000){
+                    
+                    timing = millis(); 
+                }
 
                     u8g2.clearBuffer(); // clear the internal memory
 
                     u8g2.setFont(u8g2_font_7x14B_tr);
                     u8g2.setCursor(5, 15 - 3);
-                    u8g2.print(airData[lastInd]); u8g2.print(" Ppm");
-                    
+                    if( airData[lastInd] > -10000 and airData[lastInd] < 10000){
+                        u8g2.print(airData[lastInd]); 
+                    }else{
+                        u8g2.print("No data");
+                    }
+                    u8g2.print(" Ppm");
+
                     u8g2.setFont(u8g2_font_profont10_tf);
                     u8g2.setCursor(5, 22);
-                    u8g2.print("GetStackHWMark:");u8g2.print( uxTaskGetStackHighWaterMark(NULL) );
+                    //u8g2.print("GetStackHWMark:");u8g2.print( uxTaskGetStackHighWaterMark(NULL) );
  
+               
+
                     for (int i = 0; i < airDataSize - 1; i++)
                     {
-                             // if (millis() - timingUpdateGraph > 1000){   
+                        // if (millis() - timingUpdateGraph > 1000){   
                         int actualInd = (airDataInd + i) % airDataSize;
                         int nextInd = (airDataInd + i + 1) % airDataSize;
                         // timingUpdateGraph = millis();
                         //}
 
 
-                        if (airData[actualInd] != 0 && airData[nextInd] != 0)
-                        {
-                            int actualDrawY = map(airData[actualInd], 0, 2000, 64, 32);
-                            int nextDrawY = map(airData[nextInd], 0, 2000, 64, 32);
-
+                       // if (airData[actualInd] != 0 && airData[nextInd] != 0)
+                       // {
+                            int actualDrawY = map(airData[actualInd], 0, 2000, 62, 32);
+                            int nextDrawY = map(airData[nextInd], 0, 2000, 62, 32);
+  
                             int actualDrawX = 4 * i;
                             int nextDrawX = 4 * i;
 
-                            if (drawLines)
-                                nextDrawX += 4;
-                            u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
-                        }                         
-                    }
-               
+                            nextDrawX += 4;
 
+                            u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
+                            Serial.print("actualDrawX:"); Serial.print(actualDrawX);
+                            Serial.print(" actualDrawY:"); Serial.println(actualDrawY);
+                            Serial.print("nextDrawX:"); Serial.print(nextDrawX);
+                            Serial.print(" nextDrawY:"); Serial.println(nextDrawY);
+                       // }                         
+                    }
+                    delay(500);
+                    u8g2.sendBuffer(); // transfer internal memory to the display
               
                 /*
                 int PixelPos = map(data.GetCo2(), 0, 2000, 64, 32); // Разрешение: 128 x 64 точек
@@ -1065,7 +1082,9 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
                     u8g2.drawStr(30, 15 - 3, "Only Graph"); //u8g2.drawStr(35+10, 40-3, "Off");
                 }
                */
-                u8g2.sendBuffer(); // transfer internal memory to the display
+            
+              //  u8g2.sendBuffer(); // transfer internal memory to the display
+                
             }
 
             if (horizontalPosition == 3)
