@@ -1,6 +1,5 @@
 #pragma once
 
-
 /*
 #ifdef U8X8_HAVE_HW_I2C 
 #include <Wire.h>
@@ -11,7 +10,6 @@
 //#include "AirData.h"
 #include "LightPodsvetka.h"
 #include "Sound.h"
-//#include "Timer.h"
 #include "Button.h"
 #include "Graph.h"
 // Для экрана.

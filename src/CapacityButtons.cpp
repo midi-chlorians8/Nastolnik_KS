@@ -1,7 +1,7 @@
 #include "CapacityButtons.h"
 #define printDebug
 extern bool waitOneMinGlobal;
-
+bool quickFixNoAutoStartTimer = false;
 #include "Timer.h"
 
 CapacityButton::CapacityButton()
@@ -9,7 +9,7 @@ CapacityButton::CapacityButton()
 
 }
 
-CapacityButton &CapacityButton::IsPressed(Menu &menu,Timer &timer)
+CapacityButton& CapacityButton::IsPressed(Menu &menu,Timer &timer)
 {
     //Serial.print("millis:");Serial.print(millis());
     //Serial.print(" TimePress:");Serial.print(TimePress);

@@ -264,8 +264,7 @@ public:
     void Print(){
       
         if(impuls ==true){
-            //if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) 5 ) == pdTRUE )
-           // {
+/*
                 Serial.print("SEWorkTime: ");Serial.print(SEWorkTime); 
                 Serial.print(" MySEWorkTime: ");Serial.print(MySEWorkTime); 
                 Serial.print(" SEChillTime: ");Serial.print(SEChillTime); 
@@ -280,8 +279,7 @@ public:
                 Serial.print(GetWhatDoingNow() );
 
                 Serial.println();
-               // xSemaphoreGive( xSerialSemaphore );
-           // }
+*/
             
             /*
             Serial.print(" OneRazPlusMySEWorkTime: ");Serial.print(OneRazPlusMySEWorkTime);

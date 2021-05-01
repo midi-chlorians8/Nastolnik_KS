@@ -32,7 +32,7 @@ class CapacityButton
 
     uint32_t TimePress = 522;//379; // Cюда копируется миллис при срабатывании. 37 Чтобы при старте не считалось что клавиша нажата
     bool OneRazTouch;         // Один раз начать замер времени нажатия
-    bool IsBeLongTouch = false;
+    bool IsBeLongTouch = 1;
     bool IsBeLongTouch2 = false;
 
     SensorButtonState SensorState = NoClicked;
