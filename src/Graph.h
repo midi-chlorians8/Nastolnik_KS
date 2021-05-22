@@ -3,7 +3,7 @@
 #include <vector>
 #include <Arduino.h>
 //#include <U8g2lib.h>
-
+/*
 extern int Co2GlobalVal;
 //using namespace std;
 // Принять Сo2
@@ -21,16 +21,13 @@ public:
     Graph (){
         Co2Values.resize(32,64); // 64 - нижняя граница дисплея
         //Co2Values.assign(32,99);
-        /*
+        
         for (int & number: Co2Values){
             number = 99;
         }
-        */
+        
     }
-    void FillVector(){ // Заполним Со2 для начала. Скорость изменений графика = частоте смены значений
-
-        
-        
+    void FillVector(){ // Заполним Со2 для начала. Скорость изменений графика = частоте смены значений    
     }
     std::vector<int> GetCo2Values(){
         return Co2Values;
@@ -47,3 +44,4 @@ public:
          
     }
 };
+*/

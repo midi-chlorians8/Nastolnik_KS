@@ -18,7 +18,7 @@
 #include "Sound.h"
 //#include "Graph.h"
 
-#include "AirData.h"
+#include "TempHumAirData.h"
 #define RightButtonPin 26
 #define LeftButtonPin 32
 #define UpButtonPin 4
@@ -51,11 +51,13 @@ private:
 
     //std::sort(A.begin(),A.end() ); 
     Sound sound;
-    Graph graph;
-   
+    //Graph graph;
+    //MyMHZ19C MHZ19C;
+
     bool ROMInitSuccess;
-    std::vector<int> airDataVect;
-    int airDataInd;
+    
+    std::vector<int> co2DataVect;
+    int co2DataInd;
 
     AirData airData_TempHumPress;
 public:

@@ -1,11 +1,12 @@
-#include "AirData.h"
-/*
+#include "TempHumAirData.h"
+ /*
     void AirData::GenerateRandValueCo2()
     {
-        //Co2Val = random(0, 2000);
+      
+        Co2Val = random(0, 2000);
           if (millis() - timing > 100){ // Вместо 10000 подставьте нужное вам значение паузы 
          
-         
+         /*
           if(Co2Val >400 and Kacheli == false){ 
             Co2Val-=10;
             if(Co2Val == 400){
@@ -23,9 +24,10 @@
           //Serial.print ("Kacheli:");Serial.print(Kacheli);Serial.print (" BrigtnessIterator");Serial.println(BrigtnessIterator);
           timing = millis(); 
       }
+
     }
       int AirData::GetCo2()
     {
         return Co2Val;
     }
-    */
+   */

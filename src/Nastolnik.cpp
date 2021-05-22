@@ -5,7 +5,7 @@
 #define CCS811_ADDR 0x5A //Alternate I2C Address
 
 //Nastolnik::Nastolnik() : u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE), menu(u8g2)
-Nastolnik::Nastolnik() : u8g2(U8G2_R0, 18, 19, 27, 25, 23), menu(u8g2), airDataVect(32, 0), airDataInd(0)
+Nastolnik::Nastolnik() : u8g2(U8G2_R0, 18, 19, 27, 25, 23), menu(u8g2), co2DataVect(64, 0), co2DataInd(0)
 {
     u8g2.begin();
     u8g2.setContrast(255);
@@ -167,42 +167,28 @@ void Nastolnik::HandleButtonsEvents()
 
 void Nastolnik::UpdateAirData()
 {
-    //MHZ19C.ReadMHZ19C(500); 
-     int airValueCO2 = MHZ19C.ReadMHZ19C(2000);
+static unsigned long timing;     
+if (millis() - timing > 2000*3){  
+    Serial.println("y");
+        co2DataVect[co2DataInd] = MHZ19C.ReadMHZ19C(2000);
+        co2DataInd = (co2DataInd + 1) % co2DataVect.size();
+   timing = millis(); 
+}
+        // Show data vektor
         /*
-        Serial.print("Air Data: ");
-        Serial.print(airValue);
-        Serial.println("");
+        for(auto i : co2DataVect){
+            Serial.print(i);Serial.print(" ");
+        }
+        Serial.println();
         */
-        airDataVect[airDataInd] = airValueCO2;
-        airDataInd = (airDataInd + 1) % airDataVect.size();
-       /* 
-    if (mySensor.dataAvailable())
-    {
-        //If so, have the sensor read and calculate the results.
-        //Get them later
-        mySensor.readAlgorithmResults();
-
-        int airValueCO2 = mySensor.getCO2();
-        
-        Serial.print("Air Data: ");
-        Serial.print(airValue);
-        Serial.println("");
+        // Show data vektor
       
-        airDataVect[airDataInd] = airValueCO2;
-        airDataInd = (airDataInd + 1) % airDataVect.size();
-    }
-    */
-    // delay(10); //Don't spam the I2C bus
-    //buttons.Print(menu,false); // Второй параметр означает делать ли перенос строки
-
-    //airData.GenerateRandValue(); //
 }
 
 void Nastolnik::UpdateMenu()
 {
     menu.LogicMenu(light, sound, timer);                     // Логика меню
-    menu.DrawMenu(light, timer, sound, airDataVect, airDataInd,airData_TempHumPress); // Отрисовка меню ,timer
+    menu.DrawMenu(light, timer, sound, co2DataVect, co2DataInd,airData_TempHumPress ); // Отрисовка меню ,timer
     //airData_TempHumPress.Print();
     //menu.Print();
     //graph.FillVector();
@@ -222,7 +208,8 @@ void Nastolnik::UpdateMenu()
 //Sound::Kommands z; // Только для  sound.BeepLogic(z);
 void Nastolnik::UpdateLight()
 {
-    int lastAirData = airDataVect[(airDataInd + airDataVect.size() - 1) % airDataVect.size()];
+    int lastAirData = co2DataVect[(co2DataInd + co2DataVect.size() - 1) % co2DataVect.size()];
+    
 
     light.LogicLight(lastAirData, menu.GetDangerLevelCo2Treshold()).MakeLight(timer.WhatDoingNow);
     //sound.BeepLogic(Sound::Kommands TimerTime); !! TUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

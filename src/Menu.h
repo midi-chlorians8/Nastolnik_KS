@@ -15,8 +15,8 @@
 // Для экрана.
 class Timer;
 class U8G2_SSD1309_128X64_NONAME0_F_4W_SW_SPI;
-#include "AirData.h"
-
+#include "TempHumAirData.h"
+//#include "MyMHZ19C.h"
 class Menu
 {
 

@@ -31,12 +31,11 @@ public:
 
             //Serial.print("CO2 (ppm): ");    Serial.println(CO2);     
             //Serial.print("Temperature (C): ");    Serial.println(Temp);               
-                                          
-
             getDataTimer = millis();
-            //return CO2;
         }
         return CO2;
+        //return  random(0, 2000);
+        
         // Блок MHZ19C
     }
 

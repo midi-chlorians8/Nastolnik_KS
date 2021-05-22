@@ -11,7 +11,7 @@
 class AirData // Меряет параметры воздуха
 {
 private:
-/*
+ /*
 // Блок Со2
     //int VOC;        // Летучие органические вещества
     int Co2Val = 1700; // Концентрация С02
@@ -21,7 +21,7 @@ private:
     //bool Kacheli = false;
     // Переменные для симуляции подделки Со2
 // Блок Со2
-*/
+ */
 // Блок Bme280
 Adafruit_BME280 bme; // I2C
 // Блок Bme280
@@ -85,11 +85,11 @@ public:
 
         Serial.println();
     }
-    /*
+    // /*
     void GenerateRandValueCo2();
-    void GetValueFromSensorCo2(int data){
-        Co2Val = data;
-    }
-    */
+    //void GetValueFromSensorCo2(int data){
+    //    Co2Val = data;
+    //}
+    // */
 
 };

@@ -5,7 +5,7 @@
 #include "Timer.h"
 #include "Graph.h"
 #include <vector>
-
+//#include "MyMHZ19C.h"
 // Комплекс сделай один раз. Актуален для мой меню чтоб не плодить кода лишнего
 bool OneRazCopyBool = false; // Для работы функции RazOneCopy
 States OneRazCopy(States voChto, States Chto)
@@ -941,7 +941,7 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
     }
     // 4.4
 }
-void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std::vector<int> &airData, int airDataInd, AirData airData_TempHumPress) //,Timer &timer
+void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std::vector<int> &airData, int co2DataInd, AirData airData_TempHumPress) //,Timer &timer
 {
     bool drawLines = true;
 
@@ -953,7 +953,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         {
             int airDataSize = airData.size();
             int lastInd=0;
-            lastInd = (airDataInd + airDataSize - 1) % airDataSize;
+            lastInd = (co2DataInd + airDataSize - 1) % airDataSize;
 
             if (horizontalPosition == 1)
             {                       // Если только СO2
@@ -974,120 +974,46 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
                 u8g2.sendBuffer(); // transfer internal memory to the display
 
             }
-            /*
-            if (horizontalPosition == 2)
+           
+            if (horizontalPosition == 2) // Отприсовка графика Сo2
             {
-                u8g2.clearBuffer(); // clear the internal memory
+         
+                u8g2.clearBuffer();
+                
+                // Отприсовка сверху значения цифрой
                 u8g2.setFont(u8g2_font_7x14B_tr);
-                //u8g2.drawStr(30, 15 - 3, "Co2+Graph"); //u8g2.drawStr(35+10, 40-3, "Off");  
                 u8g2.setCursor(5, 15 - 3);
-                u8g2.print(data.GetCo2());
-
-                //u8g2.setCursor(66 + 5, 40);
+                if( airData[lastInd] > -10000 and airData[lastInd] < 10000){
+                    u8g2.print(airData[lastInd]); 
+                }else{
+                    u8g2.print("No data");
+                }
                 u8g2.print(" Ppm");
-
-                u8g2.sendBuffer();                     // transfer internal memory to the display
-                FirstInToOnlyGraph = false;            // Перезарядка каждый раз сбрасывать при входе в Only Graph
-            } 
-           */
-            if (horizontalPosition == 2)
-            {
-
-                static unsigned long timing;
-                if (millis() - timing > 1000){
+                // Отприсовка сверху значения цифрой //u8g2.setFont(u8g2_font_profont10_tf);//u8g2.setCursor(5, 22);//u8g2.print("GetStackHWMark:");u8g2.print( uxTaskGetStackHighWaterMark(NULL) );
+                //}
+                          
+                //static unsigned long timing;          
+                //if (millis() - timing > 20){  
                     
-                    timing = millis(); 
-                }
-
-                    u8g2.clearBuffer(); // clear the internal memory
-
-                    u8g2.setFont(u8g2_font_7x14B_tr);
-                    u8g2.setCursor(5, 15 - 3);
-                    if( airData[lastInd] > -10000 and airData[lastInd] < 10000){
-                        u8g2.print(airData[lastInd]); 
-                    }else{
-                        u8g2.print("No data");
-                    }
-                    u8g2.print(" Ppm");
-
-                    //u8g2.setFont(u8g2_font_profont10_tf);
-                    //u8g2.setCursor(5, 22);
-                    //u8g2.print("GetStackHWMark:");u8g2.print( uxTaskGetStackHighWaterMark(NULL) );
-                if (millis() - timing > 1000){
-                    
-                    timing = millis(); 
-                }
-               
-
                     for (int i = 0; i < airDataSize - 1; i++)
                     {
                         // if (millis() - timingUpdateGraph > 1000){   
-                        int actualInd = (airDataInd + i) % airDataSize;
-                        int nextInd = (airDataInd + i + 1) % airDataSize;
-                        // timingUpdateGraph = millis();
-                        //}
+                        //Serial.println(i);
+                        int actualInd = (co2DataInd + i) %   airDataSize;
+                        int nextInd = (co2DataInd + i + 1) % airDataSize;
 
+                        int actualDrawY = map(airData[actualInd], 0, 2000, 62, 32);
+                        int nextDrawY = map(airData[nextInd], 0, 2000, 62, 32);
+                        int actualDrawX = 2 * i;
+                        int nextDrawX = 2 * i; nextDrawX += 2;
+                        u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
 
-                       // if (airData[actualInd] != 0 && airData[nextInd] != 0)
-                       // {
-                            int actualDrawY = map(airData[actualInd], 0, 2000, 62, 32);
-                            int nextDrawY = map(airData[nextInd], 0, 2000, 62, 32);
-  
-                            int actualDrawX = 4 * i;
-                            int nextDrawX = 4 * i;
-
-                            nextDrawX += 4;
-
-                            u8g2.drawLine(actualDrawX, actualDrawY, nextDrawX, nextDrawY);
-                            Serial.print("actualDrawX:"); Serial.print(actualDrawX);
-                            Serial.print(" actualDrawY:"); Serial.println(actualDrawY);
-                            Serial.print("nextDrawX:"); Serial.print(nextDrawX);
-                            Serial.print(" nextDrawY:"); Serial.println(nextDrawY);
-                       // }                         
+                        //Serial.print("actualDrawX:"); Serial.print(actualDrawX); Serial.print(" actualDrawY:"); Serial.print(actualDrawY); Serial.print("\t");
+                        //Serial.print("nextDrawX:"); Serial.print(nextDrawX); Serial.print(" nextDrawY:"); Serial.println(nextDrawY);
                     }
-                    delay(500);
-                    u8g2.sendBuffer(); // transfer internal memory to the display
-              
-                /*
-                int PixelPos = map(data.GetCo2(), 0, 2000, 64, 32); // Разрешение: 128 x 64 точек
+                    //Serial.println();
 
-                if (millis() - timingUpdateGraph > 1000)
-                { // Вместо 10000 подставьте нужное вам значение паузы
-
-                    if (FirsVxodGraphGorizont == true)
-                    {
-                        x0 = x1;
-                        y0 = y1;
-                    }
-                    // Если это первый проход по горизонтали
-                    if (FirsVxodGraphGorizont == false)
-                    { //Если только началась отрисовка графика слева на право
-                        x0 = 0;
-                        y0 = 64;
-                        FirsVxodGraphGorizont = true;
-                    }
-                    // Если это первый проход по горизонтали
-
-                    x1 = x0 + 5;
-                    y1 = PixelPos;
-
-                    timingUpdateGraph = millis();
-           
-                }
-                u8g2.drawLine(x0, y0, x1, y1);
-                if (x0 > 128)
-                {
-                    // Тут происходит возврат к началу координат графика.
-                    FirsVxodGraphGorizont = false;
-                    // Тут происходит возврат к началу координат графика.
-                    u8g2.clearBuffer();
-                    u8g2.setFont(u8g2_font_7x14B_tr);
-                    u8g2.drawStr(30, 15 - 3, "Only Graph"); //u8g2.drawStr(35+10, 40-3, "Off");
-                }
-               */
-            
-              //  u8g2.sendBuffer(); // transfer internal memory to the display
-                
+                    u8g2.sendBuffer();
             }
 
             if (horizontalPosition == 3)
