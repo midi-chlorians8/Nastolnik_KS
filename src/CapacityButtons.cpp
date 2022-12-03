@@ -85,9 +85,9 @@ CapacityButton& CapacityButton::IsPressed(Menu &menu,Timer &timer)
             #endif
             SensorState = Clicked;
 
-            menu.SetMenuLayer(0);
-            menu.SetHorizontalPosition(3);
-            menu.SetVerticalPosition(1);
+            //!menu.SetMenuLayer(0); //Вернуть для функционала верхней сенс кнопки таймер время работы за ПК
+            //!menu.SetHorizontalPosition(3); //Вернуть для функционала верхней сенс кнопки таймер время работы за ПК
+            //!menu.SetVerticalPosition(1); //Вернуть для функционала верхней сенс кнопки таймер время работы за ПК
             OneRazTouch = false; // Перезаряд захват времени при косании. Сдесь мы отпустили - и перезаряд
 
             timer.SetShowContinue(false);
