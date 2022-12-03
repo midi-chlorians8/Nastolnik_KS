@@ -34,7 +34,7 @@ void MHZ19::begin(Stream &serial)
     if (this->errorCode != RESULT_OK) 
     {
         #if defined (ESP32) && (MHZ19_ERRORS)
-        ESP_LOGE(TAG_MHZ19, "Initial communication errorCode recieved");
+        //!ESP_LOGE(TAG_MHZ19, "Initial communication errorCode recieved");
         #elif MHZ19_ERRORS
         Serial.println("!ERROR: Initial communication errorCode recieved");
         #endif 
@@ -48,7 +48,7 @@ void MHZ19::setRange(int range)
     if (range > 65000)
     {
         #if defined (ESP32) && (MHZ19_ERRORS)
-        ESP_LOGE(TAG_MHZ19, "Invalid Range value (0 - 65000)");
+        //!ESP_LOGE(TAG_MHZ19, "Invalid Range value (0 - 65000)");
         #elif MHZ19_ERRORS
         Serial.println("!ERROR: Invalid Range value (0 - 65000)");
         #endif 
@@ -65,7 +65,7 @@ void MHZ19::zeroSpan(int span)
     if (span > 10000)
     {
         #if defined (ESP32) && (MHZ19_ERRORS)
-        ESP_LOGE(TAG_MHZ19, "Invalid Span value (0 - 10000)");   
+        //!ESP_LOGE(TAG_MHZ19, "Invalid Span value (0 - 10000)");   
         #elif MHZ19_ERRORS
         Serial.println("!ERROR: Invalid Span value (0 - 10000)");
         #endif 
@@ -365,7 +365,7 @@ void MHZ19::verify()
         if (millis() - timeStamp >= TIMEOUT_PERIOD)
         {
            #if defined (ESP32) && (MHZ19_ERRORS)
-            ESP_LOGE(TAG_MHZ19, "Failed to verify connection(1) to sensor.");   
+            //!ESP_LOGE(TAG_MHZ19, "Failed to verify connection(1) to sensor.");   
             #elif MHZ19_ERRORS
             Serial.println("!ERROR: Failed to verify connection(1) to sensor.");
             #endif   
@@ -386,7 +386,7 @@ void MHZ19::verify()
         if (millis() - timeStamp >= TIMEOUT_PERIOD)
         {
             #if defined (ESP32) && (MHZ19_ERRORS)
-            ESP_LOGE(TAG_MHZ19, "Failed to verify connection(2) to sensor.");   
+            //!ESP_LOGE(TAG_MHZ19, "Failed to verify connection(2) to sensor.");   
             #elif MHZ19_ERRORS
             Serial.println("!ERROR: Failed to verify connection(2) to sensor.");
             #endif
@@ -401,7 +401,7 @@ void MHZ19::verify()
         if (this->storage.responses.CO2UNLIM[i] != this->storage.responses.STAT[i])
         {
             #if defined (ESP32) && (MHZ19_ERRORS)
-            ESP_LOGE(TAG_MHZ19, "Last response is not as expected, verification failed.");   
+            //!ESP_LOGE(TAG_MHZ19, "Last response is not as expected, verification failed.");   
             #elif MHZ19_ERRORS
             Serial.println("!ERROR: Last response is not as expected, verification failed.");
             #endif
