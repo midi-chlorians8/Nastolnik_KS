@@ -89,7 +89,7 @@ void Nastolnik::UpdateButtons()
         type_and_button.second.Update();
     }
 
-    capButton.IsPressed(menu,timer);  //.Print(menu,true); // Чтение и обработка кнопок
+    // capButton.IsPressed(menu,timer);  //.Print(menu,true); // Чтение и обработка кнопок
     
 }
 
@@ -194,7 +194,7 @@ void Nastolnik::UpdateMenu()
     //graph.FillVector();
     //graph.Print();
     //sound.ReceiveKommand(Sound:: Nop);
-    timer.CountTime(capButton,sound); //Подкидышъ считает время
+    // timer.CountTime(capButton,sound); //Подкидышъ считает время
     timer.NotifyPereriv(sound);
 
     timer.Print(); //Tog

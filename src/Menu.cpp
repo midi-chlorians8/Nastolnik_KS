@@ -2,7 +2,7 @@
 #include <U8g2lib.h>
 #include "LightPodsvetka.h"
 #include "Sound.h"
-#include "Timer.h"
+// #include "Timer.h"
 #include "Graph.h"
 #include <vector>
 //#include "MyMHZ19C.h"
@@ -625,16 +625,16 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
                 menuLayer = 401;
                 horizontalPosition = 1;
 
-                // Делаем чтобы курсор был на выбранном значении при входе в пункт меню
-                if (timer.GetSafeEyesMode() == ON)
-                {
-                    verticalPosition = 1;
-                }
-                else
-                {
-                    verticalPosition = 2;
-                }
-                // Делаем чтобы курсор был на выбранном значении при входе в пункт меню
+                // // Делаем чтобы курсор был на выбранном значении при входе в пункт меню
+                // if (timer.GetSafeEyesMode() == ON)
+                // {
+                //     verticalPosition = 1;
+                // }
+                // else
+                // {
+                //     verticalPosition = 2;
+                // }
+                // // Делаем чтобы курсор был на выбранном значении при входе в пункт меню
             }
         }
         if (verticalPosition == 2)
@@ -753,16 +753,16 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
             verticalPosition = 1;
         }
 
-        OldStateSaveEyesMode = OneRazCopy(OldStateSaveEyesMode, timer.GetSafeEyesMode());
+        // OldStateSaveEyesMode = OneRazCopy(OldStateSaveEyesMode, timer.GetSafeEyesMode());
 
-        if (verticalPosition == 1)
-        {
-            timer.SetSafeEyesMode(ON);
-        }
-        if (verticalPosition == 2)
-        {
-            timer.SetSafeEyesMode(OFF);
-        }
+        // if (verticalPosition == 1)
+        // {
+        //     timer.SetSafeEyesMode(ON);
+        // }
+        // if (verticalPosition == 2)
+        // {
+        //     timer.SetSafeEyesMode(OFF);
+        // }
 
         if (horizontalPosition == 0) // back
         {
@@ -771,22 +771,22 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
             horizontalPosition = 1;
             if (IsBeSaved_lightOnOff4_1 != true)
             {
-                timer.SetSafeEyesMode(OldStateSaveEyesMode);
+                // timer.SetSafeEyesMode(OldStateSaveEyesMode);
             }
         }
         if (horizontalPosition == 2)
         { // save
             if (verticalPosition == 1)
             {
-                timer.SetSafeEyesMode(ON);
+                // timer.SetSafeEyesMode(ON);
             }
             if (verticalPosition == 2)
             {
-                timer.SetSafeEyesMode(OFF);
+                // timer.SetSafeEyesMode(OFF);
             }
             saveBlink = true;               // Чтоб надпись save моргала как надо
             IsBeSaved_lightOnOff4_1 = true; // Нужно чтобы при выходе не сбрасывалось значение
-            writeBoolIntoEEPROM(7, timer.GetSafeEyesMode());
+            // writeBoolIntoEEPROM(7, timer.GetSafeEyesMode());
             horizontalPosition = 1;
         }
     }
@@ -796,9 +796,9 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
     {
         if (oneRazPosition4_2 == false)
         { // Один раз исполнить. Чтобы появилось в менюшке правильное значение которое в системе
-            old_SEWorkTime = timer.GetSEWorkTime();
+            // old_SEWorkTime = timer.GetSEWorkTime();
 
-            verticalPosition = map(timer.GetSEWorkTime(), 0, 30, -180, -210); // Исполнить один раз чтоб галочка соответствовала значению
+            // verticalPosition = map(timer.GetSEWorkTime(), 0, 30, -180, -210); // Исполнить один раз чтоб галочка соответствовала значению
 
             oneRazPosition4_2 = true;
         } // Один раз исполнить. Чтобы появилось в менюшке правильное значение которое в системе
@@ -813,17 +813,17 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
         }
         // Ограничители диапазона
 
-        timer.SetSEWorkTime(abs((180 + verticalPosition)));
+        // timer.SetSEWorkTime(abs((180 + verticalPosition)));
 
         if (horizontalPosition == 2) // save
         { 
-            writeIntIntoEEPROM(8, timer.GetSEWorkTime());//Тут ввод нового значения переменной и сохранения в EEPROM
+            // writeIntIntoEEPROM(8, timer.GetSEWorkTime());//Тут ввод нового значения переменной и сохранения в EEPROM
 
             IsBeSaved_lightOnOff4_2 = true;    // Нужно чтобы при выходе не сбрасывалось значение
             saveBlink = true;                  // Чтобы моргала надпись save
 
             sound.BeepReset(); // Cбрасываем пики
-            timer.SbrosTimer();// Cбрасываем таймер
+            // timer.SbrosTimer();// Cбрасываем таймер
             horizontalPosition = 1;            // Вернуть ползунок по горизонтали
         }
 
@@ -831,7 +831,7 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
         {
             if (IsBeSaved_lightOnOff4_2 != true)
             {
-                timer.SetSEWorkTime(old_SEWorkTime);
+                // timer.SetSEWorkTime(old_SEWorkTime);
             }
             menuLayer = 40;
             verticalPosition = 2;
@@ -844,8 +844,8 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
     {
         if (oneRazPosition4_3 == false)
         { // Один раз исполнить. Чтобы появилось в менюшке правильное значение которое в системе
-            old_SEChillTime = timer.GetSEChillTime();
-            verticalPosition = map(timer.GetSEChillTime(), 0, 30, -180, -210); // Исполнить один раз чтоб галочка соответствовала значению
+            // old_SEChillTime = timer.GetSEChillTime();
+            // verticalPosition = map(timer.GetSEChillTime(), 0, 30, -180, -210); // Исполнить один раз чтоб галочка соответствовала значению
             oneRazPosition4_3 = true;
         } // Один раз исполнить. Чтобы появилось в менюшке правильное значение которое в системе
         // Ограничители диапазона
@@ -859,25 +859,25 @@ void Menu::LogicMenu(LightPodsvetka &light, Sound &sound, Timer &timer)
         }
         // Ограничители диапазона
 
-        timer.SetSEChillTime(abs((180 + verticalPosition)));
+        // timer.SetSEChillTime(abs((180 + verticalPosition)));
 
         if (horizontalPosition == 2)
         { // save
             //Тут должен быть ввод нового значения переменной и сохранения в EEPROM
-            writeIntIntoEEPROM(13, timer.GetSEChillTime());
+            // writeIntIntoEEPROM(13, timer.GetSEChillTime());
 
             IsBeSaved_lightOnOff4_3 = true; // Нужно чтобы при выходе не сбрасывалось значение
             saveBlink = true;               // Чтобы моргала надпись save
 
             sound.BeepReset(); // Cбрасываем пики
-            timer.SbrosTimer();// Cбрасываем таймер
+            // timer.SbrosTimer();// Cбрасываем таймер
             horizontalPosition = 1;         // Вернуть ползунок по горизонтали
         }
         if (horizontalPosition == 0) // back
         {
             if (IsBeSaved_lightOnOff4_3 != true)
             {
-                timer.SetSEChillTime(old_SEChillTime);
+                // timer.SetSEChillTime(old_SEChillTime);
             }
             menuLayer = 41;
             verticalPosition = 3;
@@ -1022,50 +1022,49 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
                 u8g2.setFont(u8g2_font_profont10_tf);
 
                 u8g2.setCursor(0, 10);
-                u8g2.print("S.E Mode:");
+                u8g2.print("Removed feature SE Mode");
+                // u8g2.setCursor(45, 10);
+                // if (timer.GetSafeEyesMode() == ON)
+                // {
+                //     u8g2.print("ON");
+                // }
+                // else
+                // {
+                //     u8g2.print("OFF");
+                // }
 
-                u8g2.setCursor(45, 10);
-                if (timer.GetSafeEyesMode() == ON)
-                {
-                    u8g2.print("ON");
-                }
-                else
-                {
-                    u8g2.print("OFF");
-                }
-
-                // /*
-                if (timer.GetWhatDoingNow() == Work)
-                {
-                    u8g2.setCursor(65, 10);
-                    u8g2.print("Work");
-                }
-                if (timer.GetWhatDoingNow() == Chill)
-                {
-                    u8g2.setCursor(65, 10);
-                    u8g2.print("Chill");
-                }
+                // // /*
+                // if (timer.GetWhatDoingNow() == Work)
+                // {
+                //     u8g2.setCursor(65, 10);
+                //     u8g2.print("Work");
+                // }
+                // if (timer.GetWhatDoingNow() == Chill)
+                // {
+                //     u8g2.setCursor(65, 10);
+                //     u8g2.print("Chill");
+                // }
                 //Serial.print("timer.GetWhatDoingNow()");
                 //Serial.println(timer.GetWhatDoingNow() );
                 // */
 
-                if(timer.GetIsShowContinue() == false){
-                    u8g2.setFont(u8g2_font_profont29_tn);
+                // if(timer.GetIsShowContinue() == false){
+                //     u8g2.setFont(u8g2_font_profont29_tn);
 
-                    u8g2.setCursor(0 + 5, 60);
+                //     u8g2.setCursor(0 + 5, 60);
 
-                    u8g2.print(timer.GetTimerTime().output_hour);
-                    u8g2.print(":");
-                    u8g2.print(timer.GetTimerTime().output_min);
-                    u8g2.print(":");
-                    u8g2.print(timer.GetTimerTime().output_sec);
-                }else{
-                     //u8g2.clearBuffer(); // clear the internal memory
-                     //u8g2.setFont(u8g2_font_profont29_tn);
-                     u8g2.setCursor(0 + 5, 60);
+                //     u8g2.print(timer.GetTimerTime().output_hour);
+                //     u8g2.print(":");
+                //     u8g2.print(timer.GetTimerTime().output_min);
+                //     u8g2.print(":");
+                //     u8g2.print(timer.GetTimerTime().output_sec);
+                // }else{
+                //      //u8g2.clearBuffer(); // clear the internal memory
+                //      //u8g2.setFont(u8g2_font_profont29_tn);
+                //      u8g2.setCursor(0 + 5, 60);
 
-                    u8g2.print("CONTINUE"); // Шрифт можно как в теккене
-                }
+                //     u8g2.print("CONTINUE"); // Шрифт можно как в теккене
+                // }
 
                 //u8g2.drawStr(20, 35-3,"Only Co2");  //"Only Co2" u8g2.drawStr(35+10, 40-3, "Off");
                 //u8g2.sendBuffer();          // transfer internal memory to the display
@@ -1364,14 +1363,14 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         u8g2.drawStr(0, 25 - 3, "4.1 Activate"); // write something to the internal memory
         u8g2.drawStr(0, 32, "Save Eyes");        // write something to the internal memory
 
-        if (timer.GetSafeEyesMode() == true)
-        {
-            u8g2.drawStr(97, 25 - 3, "On");
-        }
-        else
-        {
-            u8g2.drawStr(97, 25 - 3, "Off");
-        }
+        // if (timer.GetSafeEyesMode() == true)
+        // {
+        //     u8g2.drawStr(97, 25 - 3, "On");
+        // }
+        // else
+        // {
+        //     u8g2.drawStr(97, 25 - 3, "Off");
+        // }
 
         u8g2.drawLine(0, 32 + 5, 105, 32 + 5);
 
@@ -1379,7 +1378,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         u8g2.drawStr(0, 42 + 17, "work set");
 
         u8g2.setCursor(97, 32 + 17);
-        u8g2.print(timer.GetSEWorkTime());
+        // u8g2.print(timer.GetSEWorkTime());
         /*
         if (light.GetSmoothlyOrNot() == Smoothly)
         {
@@ -1407,7 +1406,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         else                                {u8g2.drawStr(97, 32 + 17, "Off"); }  
 */
         u8g2.setCursor(97, 25 - 3);
-        u8g2.print(timer.GetSEChillTime());
+        // u8g2.print(timer.GetSEChillTime());
 
         u8g2.drawLine(0, 32 + 5, 105, 32 + 5);
 
@@ -1476,7 +1475,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         u8g2.setFont(u8g2_font_10x20_tr);
 
         u8g2.setCursor(56, 35);
-        u8g2.print(timer.GetSEWorkTime());
+        // u8g2.print(timer.GetSEWorkTime());
 
         u8g2.drawTriangle(85 + 12, 28, 88 + 12, 16, 91 + 12, 28);
         u8g2.drawTriangle(85 + 12, 32, 88 + 12, 44, 91 + 12, 32);
@@ -1507,7 +1506,7 @@ void Menu::DrawMenu(LightPodsvetka &light, Timer &timer, Sound &sound, const std
         u8g2.setFont(u8g2_font_10x20_tr);
 
         u8g2.setCursor(60, 35);
-        u8g2.print(timer.GetSEChillTime());
+        // u8g2.print(timer.GetSEChillTime());
 
         u8g2.drawTriangle(85 + 12, 28, 88 + 12, 16, 91 + 12, 28);
         u8g2.drawTriangle(85 + 12, 32, 88 + 12, 44, 91 + 12, 32);

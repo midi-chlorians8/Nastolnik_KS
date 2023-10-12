@@ -13,7 +13,7 @@
 #include "Menu.h"
 #include "Timer.h"
 #include "LightPodsvetka.h"
-#include "CapacityButtons.h"
+// #include "CapacityButtons.h"
 #include "Button.h"
 #include "Sound.h"
 //#include "Graph.h"
@@ -45,7 +45,7 @@ private:
     MyMHZ19C MHZ19C;
     
     
-    CapacityButton capButton; // Создали наши кнопки
+    // CapacityButton capButton; // Создали наши кнопки
     std::map<ButtonType, Button> buttons;
     //std::vector<int> A = {11,2,3,14};
 
